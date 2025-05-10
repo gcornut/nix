@@ -1,0 +1,59 @@
+{ pkgs, lib, getEnv, ... }: {
+  home.packages = with pkgs; [
+    bash
+    zsh
+    zsh-powerlevel10k
+
+    # tools
+    coreutils
+    jq
+    eza
+    dos2unix
+    fzf
+  ];
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    syntaxHighlighting.enable = true;
+    autosuggestion.enable = true;
+
+    history = {
+      save = 1000000000;
+      size = 1000000000;
+      append = true;
+      share = true;
+      ignoreSpace = true;
+      ignoreAllDups = true;
+      ignoreDups = true;
+      saveNoDups = true;
+      findNoDups = true;
+      expireDuplicatesFirst = true;
+    };
+
+    historySubstringSearch.enable = true;
+
+    sessionVariables = {
+      EDITOR = "vim";
+      NIX_POWERLEVEL10K = pkgs.zsh-powerlevel10k;
+      MYREPOS = getEnv "MYREPOS";
+    };
+
+    shellAliases = {
+      ":myprs" = toString ./scripts/myprs.js;
+      ":pr-submit" = toString ./scripts/pr_submit.sh;
+      ":wait-merge" = toString ./scripts/github-watch-merge.js;
+      ":wait-deploy" = toString ./scripts/github-watch-deploy.js;
+    };
+
+    initContent = lib.mkMerge [
+      # Instant prompt first
+      (lib.mkBefore (builtins.readFile ./p10k.instant-prompt.zsh))
+      # Other config after
+      (lib.mkAfter (builtins.readFile ./zshrc.zsh))
+      (lib.mkAfter (builtins.readFile ./functions-aliases.zsh))
+    ];
+  };
+
+  home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
+}
