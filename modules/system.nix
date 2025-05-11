@@ -28,7 +28,7 @@
     enable = true;
 
     onActivation = {
-      autoUpdate = true;
+      autoUpdate = false;
       cleanup = "uninstall"; # uninstalls all formulae not listed here (use "zap" to remove related filed).
     };
 
@@ -43,6 +43,7 @@
       "syncthing"
       "webstorm"
       "pycharm-ce"
+      "docker"
     ];
 
     masApps = {

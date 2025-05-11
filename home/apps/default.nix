@@ -6,7 +6,6 @@
     firefox
 
     # dev env
-    docker
     nixd
     google-cloud-sdk
 
