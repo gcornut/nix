@@ -1,4 +1,8 @@
-{ pkgs, getEnv, ... }: {
+{
+  pkgs,
+  getEnv,
+  ...
+}: {
   home.packages = with pkgs; [
     git
     github-cli
@@ -21,11 +25,8 @@
     enable = true;
     userName = getEnv "GIT_USERNAME";
     userEmail = getEnv "GIT_USEREMAIL";
-
     lfs.enable = true;
-
     delta.enable = true;
-
     maintenance.enable = true;
 
     ignores = [
@@ -37,6 +38,7 @@
       ".nix"
       ".eslintcache"
     ];
+
     extraConfig = {
       core = {
         ignorecase = false;
@@ -60,16 +62,16 @@
       rhard = "reset --hard";
 
       st = "status -sb";
-	    ch = "!${./scripts/git_checkout.sh}";
+      ch = "!${./scripts/git_checkout.sh}";
 
-	    cm = "commit -m";
-	    amend = "commit --amend --reuse-message=HEAD";
+      cm = "commit -m";
+      amend = "commit --amend --reuse-message=HEAD";
 
-	    ps = "push";
-	    psf = "push --force-with-lease";
+      ps = "push";
+      psf = "push --force-with-lease";
 
-	    l = "log --pretty=oneline -n 20 --graph --abbrev-commit";
-	    ll = "!git log --graph --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an %ae>%Creset' --abbrev-commit --date=relative";
+      l = "log --pretty=oneline -n 20 --graph --abbrev-commit";
+      ll = "!git log --graph --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an %ae>%Creset' --abbrev-commit --date=relative";
     };
   };
 }

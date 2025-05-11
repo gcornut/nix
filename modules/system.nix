@@ -1,9 +1,8 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   #  macOS's System configuration
   #    https://nix-darwin.github.io/nix-darwin/manual/index.html
 
-  environment.systemPackages = with pkgs; [ coreutils ];
+  environment.systemPackages = with pkgs; [coreutils];
 
   system = {
     stateVersion = 6;

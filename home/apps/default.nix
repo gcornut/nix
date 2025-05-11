@@ -1,8 +1,13 @@
-{ pkgs, mkCaskList, ... }: {
+{
+  pkgs,
+  mkCaskList,
+  ...
+}: {
   # Packages
   home.packages = with pkgs; [
     # dev env
     nixd
+    alejandra
     google-cloud-sdk
 
     # JS

@@ -1,5 +1,11 @@
-{ pkgs, lib, getEnv, ... }: with lib; with builtins;
 {
+  pkgs,
+  lib,
+  getEnv,
+  ...
+}:
+with lib;
+with builtins; {
   home.packages = with pkgs; [
     bash
     zsh
@@ -59,5 +65,5 @@
     ];
   };
 
-  home.file.".p10k.zsh".text = builtins.readFile ./p10k.zsh;
+  home.file.".p10k.zsh".text = readFile ./p10k.zsh;
 }

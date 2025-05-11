@@ -3,8 +3,7 @@ include .env
 export $(shell sed 's/=.*//' .env)
 
 init:
-	#nix --extra-experimental-features "nix-command flakes" build .#darwinConfigurations.$$(scutil --get LocalHostName).system
-	nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake .
+	nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake . --impure
 
 switch:
 	darwin-rebuild switch --flake . --impure
