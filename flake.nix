@@ -7,10 +7,9 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, mac-app-util, ... }:
+  outputs = { self, nix-darwin, nixpkgs, home-manager, ... }:
   let
     hostname = "218300486L";
     system = "aarch64-darwin";
@@ -31,7 +30,6 @@
         useUserPackages = false;
         users."${user}" = import ./home;
         extraSpecialArgs = import ./modules/utils.nix { inherit self lib; };
-        sharedModules = [ mac-app-util.homeManagerModules.default ];
       };
     };
   in
@@ -41,7 +39,6 @@
         ./modules/system.nix
         configuration
         home-manager.darwinModules.home-manager
-        mac-app-util.darwinModules.default
       ];
     };
     formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;

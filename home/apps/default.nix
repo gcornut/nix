@@ -1,10 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, mkCaskList, ... }: {
+  # Packages
   home.packages = with pkgs; [
-    # browser
-    arc-browser
-    google-chrome
-    firefox
-
     # dev env
     nixd
     google-cloud-sdk
@@ -16,22 +12,41 @@
     bun
 
     # media
-    spotify
     ffmpeg
     imagemagick
-    losslesscut-bin
 
     # sync & network
     rsync
     rclone
-    tailscale
-
-    # messaging
-    slack
-    signal-desktop-bin
-    discord
-
-    # pass
-    bitwarden-desktop
   ];
+
+  # Desktop apps
+  home.file.".Brewfile" = {
+    text = mkCaskList [
+      # media
+      "spotify"
+      "vlc"
+      "losslesscut"
+
+      # browser
+      "arc"
+      "google-chrome"
+      "firefox"
+      "tor-browser"
+
+      # sync & network
+      "tailscale"
+      "parsec"
+      "syncthing"
+
+      # messaging
+      "slack"
+      "signal"
+      "discord"
+
+      # dev
+      "docker"
+      "bitwarden"
+    ];
+  };
 }

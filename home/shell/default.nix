@@ -1,4 +1,5 @@
-{ pkgs, lib, getEnv, ... }: {
+{ pkgs, lib, getEnv, ... }: with lib; with builtins;
+{
   home.packages = with pkgs; [
     bash
     zsh
@@ -48,12 +49,12 @@
       ":wait-deploy" = toString ./scripts/github-watch-deploy.js;
     };
 
-    initContent = lib.mkMerge [
+    initContent = mkMerge [
       # Instant prompt first
-      (lib.mkBefore (builtins.readFile ./p10k.instant-prompt.zsh))
+      (mkBefore (readFile ./p10k.instant-prompt.zsh))
       # Other config after
-      (lib.mkAfter (builtins.readFile ./zshrc.zsh))
-      (lib.mkAfter (builtins.readFile ./functions-aliases.zsh))
+      (mkAfter (readFile ./zshrc.zsh))
+      (mkAfter (readFile ./functions-aliases.zsh))
     ];
   };
 
