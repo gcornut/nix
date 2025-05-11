@@ -16,8 +16,10 @@
     enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
-    autosuggestion.enable = true;
-
+    autosuggestion = {
+      enable = true;
+      strategy = ["match_prev_cmd" "history"];
+    };
     history = {
       save = 1000000000;
       size = 1000000000;
