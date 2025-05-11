@@ -10,6 +10,5 @@ switch:
 	darwin-rebuild switch --flake . --impure
 
 update:
-	brew update
-	nix flake update
-	make switch
+	brew update & nix flake update & wait
+	make switch & brew upgrade & wait
