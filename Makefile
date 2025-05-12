@@ -5,6 +5,9 @@ export $(shell sed 's/=.*//' .env)
 init:
 	nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake . --impure
 
+brew-install:
+	brew bundle install --cleanup --no-upgrade --force --global
+
 switch:
 	darwin-rebuild switch --flake . --impure
 

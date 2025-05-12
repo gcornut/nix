@@ -19,6 +19,10 @@ with builtins; {
     fzf
   ];
 
+  home.sessionPath = [
+    "/opt/homebrew/bin"
+  ];
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
