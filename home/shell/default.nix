@@ -17,6 +17,7 @@ with builtins; {
     eza
     dos2unix
     fzf
+    moreutils
   ];
 
   home.sessionPath = [
