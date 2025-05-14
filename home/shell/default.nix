@@ -13,6 +13,7 @@ with builtins; {
 
     # tools
     coreutils
+    gnused
     jq
     eza
     dos2unix

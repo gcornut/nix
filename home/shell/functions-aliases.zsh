@@ -53,6 +53,25 @@ alias :pop="gt pop"
 }
 alias :psf="git psf"
 
+:branch-single-commit() {
+  local commit_count=$(git rev-list --count $(gt parent)..HEAD)
+  if [[ "$commit_count" != "1" ]]; then
+      return 1
+  fi
+  git log -1 --pretty=%B
+}
+
+:rename() {
+  local name=$(:branch-single-commit | \
+    sed -E 's/[^a-zA-Z]/_/g; s/([a-z])([A-Z])/\1_\2/g; s/([A-Z])/\L\1/g; s/_+/_/g; s/^_*//; s/_*$//')
+
+  if [[ $return_code -eq 0 ]]; then
+    gt rename ${name}
+    return 0;
+  fi
+  gt rename
+}
+
 # Commit
 :amend() {
   set -x
