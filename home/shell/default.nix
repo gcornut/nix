@@ -1,7 +1,8 @@
 {
   pkgs,
   lib,
-  getEnv,
+  globals,
+  env,
   ...
 }:
 with lib;
@@ -51,8 +52,8 @@ with builtins; {
     sessionVariables = {
       EDITOR = "vim";
       NIX_POWERLEVEL10K = pkgs.zsh-powerlevel10k;
-      MYREPOS = getEnv "MYREPOS";
-      XDG_CONFIG_HOME = (getEnv "HOME") + "/.config";
+      MYREPOS = env.MYREPOS;
+      XDG_CONFIG_HOME = globals.home + "/.config";
     };
 
     shellAliases = {

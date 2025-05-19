@@ -1,0 +1,5 @@
+{
+  GIT_USEREMAIL="";
+  GIT_USERNAME="";
+  MYREPOS="";
+}

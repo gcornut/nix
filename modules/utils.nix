@@ -1,18 +1,19 @@
 {
   self,
   lib,
+  globals,
 }:
-with lib; {
-  mkDotfileLink = config: path: let
+with lib; rec {
+  inherit globals;
+  env = import (toAbsolutePath ../.env.nix);
+  toAbsolutePath = path: let
     rootStr = toString self;
     pathStr = toString path;
   in
     assert assertMsg (hasPrefix rootStr pathStr)
     "${pathStr} does not start with ${rootStr}";
-      config.lib.file.mkOutOfStoreSymlink (builtins.getEnv "PWD") + (removePrefix rootStr pathStr);
-  getEnv = var: let
-    val = builtins.getEnv var;
-  in
-    assert assertMsg (val != "") "Missing env var ${var}"; val;
+      (builtins.getEnv "PWD") + (removePrefix rootStr pathStr);
+  mkDotfileLink = config: path:
+    config.lib.file.mkOutOfStoreSymlink (toAbsolutePath path);
   mkCaskList = concatMapStrings (cask: "cask \"${cask}\"\n");
 }

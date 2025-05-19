@@ -1,6 +1,6 @@
 {
   pkgs,
-  getEnv,
+  env,
   ...
 }: {
   home.packages = with pkgs; [
@@ -23,8 +23,8 @@
 
   programs.git = {
     enable = true;
-    userName = getEnv "GIT_USERNAME";
-    userEmail = getEnv "GIT_USEREMAIL";
+    userName = env.GIT_USERNAME;
+    userEmail = env.GIT_USEREMAIL;
     lfs.enable = true;
     delta.enable = true;
     maintenance.enable = true;
