@@ -33,12 +33,8 @@
     }: {
       default = pkgs.mkShell {
         packages = [node16.nodejs node16.yarn];
-        shellHook = ''
-          mkdir -p bin
-          ln -sf ${node16.nodejs}/bin/* bin/
-          ln -sf ${node16.yarn}/bin/* bin/
-          [[ $(basename $(pwd)) = ".nix" ]] && cd ..
-        '';
+        DIRENV_NODE_BIN = ''${node16.nodejs}/bin'';
+        DIRENV_YARN_BIN = ''${node16.yarn}/bin'';
       };
     });
   };
