@@ -1,4 +1,10 @@
-{ pkgs, config, mkDotfileLink, mkCaskList, ... }: {
+{
+  pkgs,
+  config,
+  mkDotfileLink,
+  mkCaskList,
+  ...
+}: {
   # Packages
   home.packages = with pkgs; [
     vim

@@ -9,31 +9,35 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, ... }:
-  let
+  outputs = {
+    self,
+    nix-darwin,
+    nixpkgs,
+    home-manager,
+    ...
+  }: let
     hostname = "218300486L";
     system = "aarch64-darwin";
     user = "gcornut";
     home = "/Users/${user}";
-    configuration = { lib, ... }: {
+    configuration = {lib, ...}: {
       nix = {
         enable = false; # nix is managed by nix determinate
-        nixPath =  [ "nixpkgs=${nixpkgs}" ];
+        nixPath = ["nixpkgs=${nixpkgs}"];
       };
       nixpkgs = {
         hostPlatform = system;
-        config = { allowUnfree = true; };
+        config = {allowUnfree = true;};
       };
-      users.users."${user}" = { home = home; };
+      users.users."${user}" = {home = home;};
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = false;
         users."${user}" = import ./home;
-        extraSpecialArgs = import ./modules/utils.nix { inherit self lib; };
+        extraSpecialArgs = import ./modules/utils.nix {inherit self lib;};
       };
     };
-  in
-  {
+  in {
     darwinConfigurations."${hostname}" = nix-darwin.lib.darwinSystem {
       modules = [
         ./modules/system.nix
