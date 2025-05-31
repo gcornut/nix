@@ -26,6 +26,8 @@ async function listPR(repo, fk, fv) {
   return await res.json();
 }
 
+const hasLabel = (label, pr) => pr.labels?.find((l) => l.name === label);
+
 console.log("Listing ", repos);
 const prs = await Promise.all([
   ...repos.map((repo) => listPR(repo, "--author", me)),
@@ -38,10 +40,13 @@ const needMerge = [];
 const others = [];
 
 for (const pr of prs) {
-  if (pr.reviewDecision === "REVIEW_REQUIRED") needReview.push(pr);
-  else if (pr.labels?.find((l) => l.name === "need: test")) needTest.push(pr);
-  else if (pr.labels?.find((l) => l.name === "reviewed-and-tested"))
-    needMerge.push(pr);
+  if (
+    pr.reviewDecision === "REVIEW_REQUIRED" &&
+    !hasLabel("need: dev-frontend", pr)
+  )
+    needReview.push(pr);
+  else if (hasLabel("need: test", pr)) needTest.push(pr);
+  else if (hasLabel("reviewed-and-tested", pr)) needMerge.push(pr);
   else others.push(pr);
 }
 

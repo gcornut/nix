@@ -3,6 +3,8 @@
   lib,
   globals,
   env,
+  mkDotfileLinks,
+  config,
   ...
 }:
 with lib;
@@ -25,6 +27,11 @@ with builtins; {
   home.sessionPath = [
     "/opt/homebrew/bin"
   ];
+
+  home.file = mkDotfileLinks config {
+    from = ./zsh;
+    to = ".zsh";
+  };
 
   programs.zsh = {
     enable = true;
@@ -57,22 +64,19 @@ with builtins; {
     };
 
     shellAliases = {
-      ":myprs" = toString ./scripts/myprs.js;
-      ":pr-submit" = toString ./scripts/pr_submit.sh;
-      ":wait-merge" = toString ./scripts/github-watch-merge.js;
-      ":wait-deploy" = toString ./scripts/github-watch-deploy.js;
+      ":myprs" = "~/.zsh/scripts/myprs.js";
+      ":pr-submit" = "~/.zsh/scripts/pr_submit.sh";
+      ":wait-merge" = "~/.zsh/scripts/github-watch-merge.js";
+      ":wait-deploy" = "~/.zsh/scripts/github-watch-deploy.js";
     };
 
     initContent = mkMerge [
       # Instant prompt first
-      (mkBefore (readFile ./p10k.instant-prompt.zsh))
+      (mkBefore (readFile ./zshrc/before.zsh))
       # Other config after
-      (mkAfter (readFile ./zshrc.zsh))
-      (mkAfter (readFile ./functions-aliases.zsh))
+      (mkAfter (readFile ./zshrc/after.zsh))
     ];
   };
-
-  home.file.".p10k.zsh".text = readFile ./p10k.zsh;
 
   programs.direnv = {
     enable = true;
