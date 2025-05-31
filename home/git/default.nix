@@ -35,7 +35,9 @@
       "nohup.out"
       ".idea"
       ".zed"
-      ".nix"
+      ".envrc"
+      ".direnv"
+      ".direnv-bin"
       ".eslintcache"
     ];
 

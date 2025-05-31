@@ -1,0 +1,4 @@
+use flake ~/git/nix/dev-template/node16
+mkdir -p .direnv-bin
+ln -sf $DIRENV_NODE_BIN/* .direnv-bin/
+ln -sf $DIRENV_YARN_BIN/* .direnv-bin/

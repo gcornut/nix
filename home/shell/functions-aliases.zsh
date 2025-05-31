@@ -242,7 +242,3 @@ function tnotify() {
 function focus() {
   osascript -e 'tell application "'$1'" to activate'
 }
-
-:nix-develop() {
-    cd .nix; nix develop -c zsh
-}

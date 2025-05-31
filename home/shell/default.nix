@@ -73,4 +73,10 @@ with builtins; {
   };
 
   home.file.".p10k.zsh".text = readFile ./p10k.zsh;
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
 }
