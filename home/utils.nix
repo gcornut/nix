@@ -6,7 +6,9 @@
 with lib;
 with builtins; rec {
   inherit globals;
+
   env = import (toAbsolutePath ../.env.nix);
+
   toAbsolutePath = path: let
     rootStr = toString self;
     pathStr = toString path;
@@ -14,12 +16,14 @@ with builtins; rec {
     assert assertMsg (hasPrefix rootStr pathStr)
     "${pathStr} does not start with ${rootStr}";
       (builtins.getEnv "PWD") + (removePrefix rootStr pathStr);
+
   mkDotfileLink = config: {
     from,
     to,
   }: {
     "${to}".source = config.lib.file.mkOutOfStoreSymlink (toAbsolutePath from);
   };
+
   mkDotdirLinks = config: {
     from,
     to,
@@ -30,17 +34,18 @@ with builtins; rec {
         if type == "directory"
         then
           (mkDotdirLinks config {
-            from = from + ("/" + name);
-            to = to + "/" + name;
+            from = from + "/${name}";
+            to = "${to}/${name}";
           })
         else
           mkDotfileLink config {
+            from = from + "/${name}";
             to = "${to}/${name}";
-            from = from + ("/" + name);
           }
     ))
     flatten
     mkMerge
   ]);
+
   mkBrewfile = text: {".Brewfile".text = text;};
 }

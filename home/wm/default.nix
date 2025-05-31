@@ -1,6 +1,6 @@
 {
   lib,
-  mkDotfileLink,
+  mkDotdirLinks,
   mkBrewfile,
   config,
   ...
@@ -12,9 +12,9 @@
       cask "mediosz/tap/swipeaerospace"
     '')
     # Config
-    (mkDotfileLink config {
-      from = ./aerospace.toml;
-      to = ".aerospace.toml";
+    (mkDotdirLinks config {
+      from = ./aerospace;
+      to = ".config/aerospace";
     })
   ];
 }
