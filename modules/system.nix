@@ -9,6 +9,41 @@
 
     defaults = {
       menuExtraClock.Show24Hour = true;
+      NSGlobalDomain = {
+        AppleInterfaceStyle = "Dark";
+        _HIHideMenuBar = true;
+        AppleShowAllExtensions = true;
+        NSTableViewDefaultSizeMode = 2;
+        NSDocumentSaveNewDocumentsToCloud = false;
+        ApplePressAndHoldEnabled = false;
+      };
+      LaunchServices.LSQuarantine = false;
+      finder = {
+        ShowPathbar = true;
+        ShowStatusBar = true;
+        FXEnableExtensionChangeWarning = false;
+        FXPreferredViewStyle = "clmv";
+        _FXSortFoldersFirst = true;
+      };
+      dock = {
+        autohide = true;
+        mineffect = "scale";
+        mru-spaces = false;
+        show-recents = false;
+        tilesize = 65;
+        wvous-br-corner = 14;
+      };
+      WindowManager = {
+        EnableStandardClickToShowDesktop = false;
+        AppWindowGroupingBehavior = true;
+        StandardHideDesktopIcons = true;
+        HideDesktop = true;
+      };
+    };
+
+    keyboard = {
+      enableKeyMapping = true;
+      remapCapsLockToEscape = true;
     };
   };
 
