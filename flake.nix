@@ -36,6 +36,7 @@
         users."${user}" = import ./home;
         extraSpecialArgs = import ./modules/utils.nix {inherit self lib;};
       };
+      system.primaryUser = user;
     };
   in {
     darwinConfigurations."${hostname}" = nix-darwin.lib.darwinSystem {
