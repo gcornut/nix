@@ -1,4 +1,3 @@
-# Setup: Install nix with installer: https://determinate.systems/posts/graphical-nix-installer
 
 init:
 	sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake . --impure
