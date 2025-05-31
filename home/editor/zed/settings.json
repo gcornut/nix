@@ -12,7 +12,7 @@
     "always_allow_tool_actions": true,
     "default_model": {
       "provider": "google",
-      "model": "gemini-2.5-flash-preview-04-17"
+      "model": "gemini-2.0-flash-thinking-exp"
     },
     "version": "2"
   },
@@ -24,7 +24,21 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Ayu Dark"
+    "dark": "Ayu Mirage"
+  },
+  "experimental.theme_overrides": {
+    "background.appearance": "blurred",
+    "background": "#0d1016F7",
+    "title_bar.background": "#0d1016F7",
+    "status_bar.background": "#0d1016F7",
+    "tab.active_background": "#00000077",
+    "toolbar.background": "#00000077",
+    "terminal.background": "#00000000",
+    "editor.background": "#00000000",
+    "editor.gutter.background": "#00000003",
+    "tab.inactive_background": "#00000000",
+    "tab_bar.background": "#00000005",
+    "panel.background": "#00000000"
   },
   "vim_mode": true,
   "languages": {
