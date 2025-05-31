@@ -2,8 +2,6 @@
   #  macOS's System configuration
   #    https://nix-darwin.github.io/nix-darwin/manual/index.html
 
-  environment.systemPackages = with pkgs; [coreutils];
-
   system = {
     stateVersion = 6;
 
@@ -11,7 +9,7 @@
       menuExtraClock.Show24Hour = true;
       NSGlobalDomain = {
         AppleInterfaceStyle = "Dark";
-        _HIHideMenuBar = true;
+        _HIHideMenuBar = false;
         AppleShowAllExtensions = true;
         NSTableViewDefaultSizeMode = 2;
         NSDocumentSaveNewDocumentsToCloud = false;
@@ -25,6 +23,7 @@
         FXPreferredViewStyle = "clmv";
         _FXSortFoldersFirst = true;
       };
+      spaces.spans-displays = true;
       dock = {
         autohide = true;
         mineffect = "scale";

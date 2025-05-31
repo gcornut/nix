@@ -14,23 +14,31 @@ with builtins; rec {
     assert assertMsg (hasPrefix rootStr pathStr)
     "${pathStr} does not start with ${rootStr}";
       (builtins.getEnv "PWD") + (removePrefix rootStr pathStr);
-  mkDotfileLink = config: path:
-    config.lib.file.mkOutOfStoreSymlink (toAbsolutePath path);
+  mkDotfileLink = config: {
+    from,
+    to,
+  }: {
+    "${to}".source = config.lib.file.mkOutOfStoreSymlink (toAbsolutePath from);
+  };
   mkDotfileLinks = config: {
     from,
     to,
   }: (pipe from [
     readDir
-    (mapAttrsToList (name: type:
-      if type == "directory"
-      then
-        (mkDotfileLinks config {
-          from = from + ("/" + name);
-          to = to + "/" + name;
-        })
-      else {
-        "${to}/${name}".source = mkDotfileLink config from + ("/" + name);
-      }))
+    (mapAttrsToList (
+      name: type:
+        if type == "directory"
+        then
+          (mkDotfileLinks config {
+            from = from + ("/" + name);
+            to = to + "/" + name;
+          })
+        else
+          mkDotfileLink config {
+            to = "${to}/${name}";
+            from = from + ("/" + name);
+          }
+    ))
     flatten
     mkMerge
   ]);

@@ -22,6 +22,7 @@ with builtins; {
     dos2unix
     fzf
     moreutils
+    htop
   ];
 
   home.sessionPath = [

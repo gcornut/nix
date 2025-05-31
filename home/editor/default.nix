@@ -20,6 +20,7 @@
         "visual-studio-code"
         "webstorm"
         "pycharm-ce"
+        "cursor"
       ];
     }
     # Config
