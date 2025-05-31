@@ -1,9 +1,9 @@
 { pkgs, config, mkDotfileLink, ... }: {
-  home.packages = [
-    pkgs.vim
-    pkgs.neovim
-    pkgs.zed-editor
-    pkgs.vscode
+  home.packages = with pkgs; [
+    vim
+    neovim
+    zed-editor
+    vscode
   ];
 
   home.file.".config/zed/settings.json".source = mkDotfileLink config ./zed/settings.json;
