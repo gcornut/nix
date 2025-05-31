@@ -16,36 +16,38 @@
     home-manager,
     ...
   }: let
-    hostname = "218300486L";
-    system = "aarch64-darwin";
-    user = "gcornut";
-    home = "/Users/${user}";
+    globals = rec {
+      hostname = "218300486L";
+      system = "aarch64-darwin";
+      user = "gcornut";
+      home = "/Users/${user}";
+    };
     configuration = {lib, ...}: {
       nix = {
         enable = false; # nix is managed by nix determinate
         nixPath = ["nixpkgs=${nixpkgs}"];
       };
       nixpkgs = {
-        hostPlatform = system;
+        hostPlatform = globals.system;
         config = {allowUnfree = true;};
       };
-      users.users."${user}" = {home = home;};
+      users.users."${globals.user}" = {home = globals.home;};
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = false;
-        users."${user}" = import ./home;
-        extraSpecialArgs = import ./modules/utils.nix {inherit self lib;};
+        users."${globals.user}" = import ./home;
+        extraSpecialArgs = import ./modules/utils.nix {inherit self lib globals;};
       };
-      system.primaryUser = user;
+      system.primaryUser = globals.user;
     };
   in {
-    darwinConfigurations."${hostname}" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."${globals.hostname}" = nix-darwin.lib.darwinSystem {
       modules = [
         ./modules/system.nix
         configuration
         home-manager.darwinModules.home-manager
       ];
     };
-    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+    formatter.${globals.system} = nixpkgs.legacyPackages.${globals.system}.alejandra;
   };
 }

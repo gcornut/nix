@@ -1,16 +1,14 @@
 # Setup: Install nix with installer: https://determinate.systems/posts/graphical-nix-installer
-include .env
-export $(shell sed 's/=.*//' .env)
 
 init:
-	nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake . --impure
+	sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake . --impure
 
 brew-install:
 	brew bundle install --cleanup --no-upgrade --force --global
 
 switch:
-	darwin-rebuild switch --flake . --impure
+	sudo darwin-rebuild switch --flake . --impure
 
 update:
-	brew update & nix flake update & wait
+	brew update & sudo nix flake update & wait
 	make switch & brew upgrade & wait
