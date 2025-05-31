@@ -20,7 +20,7 @@ with builtins; rec {
   }: {
     "${to}".source = config.lib.file.mkOutOfStoreSymlink (toAbsolutePath from);
   };
-  mkDotfileLinks = config: {
+  mkDotdirLinks = config: {
     from,
     to,
   }: (pipe from [
@@ -29,7 +29,7 @@ with builtins; rec {
       name: type:
         if type == "directory"
         then
-          (mkDotfileLinks config {
+          (mkDotdirLinks config {
             from = from + ("/" + name);
             to = to + "/" + name;
           })
@@ -42,5 +42,5 @@ with builtins; rec {
     flatten
     mkMerge
   ]);
-  mkCaskList = concatMapStrings (cask: "cask \"${cask}\"\n");
+  mkBrewfile = text: {".Brewfile".text = text;};
 }

@@ -12,6 +12,6 @@ with builtins; {
   ];
 
   home.file.".Brewfile".onChange = ''
-    /opt/homebrew/bin/brew bundle install --cleanup --no-upgrade --force --global
+    /opt/homebrew/bin/brew bundle install --no-upgrade --force --global
   '';
 }

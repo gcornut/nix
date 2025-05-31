@@ -3,7 +3,7 @@
   lib,
   globals,
   env,
-  mkDotfileLinks,
+  mkDotdirLinks,
   config,
   ...
 }:
@@ -29,7 +29,7 @@ with builtins; {
     "/opt/homebrew/bin"
   ];
 
-  home.file = mkDotfileLinks config {
+  home.file = mkDotdirLinks config {
     from = ./zsh;
     to = ".zsh";
   };

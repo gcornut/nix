@@ -1,8 +1,8 @@
 {
   pkgs,
   config,
-  mkDotfileLinks,
-  mkCaskList,
+  mkDotdirLinks,
+  mkBrewfile,
   lib,
   ...
 }: {
@@ -14,17 +14,16 @@
 
   home.file = lib.mkMerge [
     # Desktop apps
-    {
-      ".Brewfile".text = mkCaskList [
-        "zed"
-        "visual-studio-code"
-        "webstorm"
-        "pycharm-ce"
-        "cursor"
-      ];
-    }
+    (mkBrewfile ''
+      # editor
+      cask "zed"
+      cask "visual-studio-code"
+      cask "webstorm"
+      cask "pycharm-ce"
+      cask "cursor"
+    '')
     # Config
-    (mkDotfileLinks config {
+    (mkDotdirLinks config {
       from = ./zed;
       to = ".config/zed";
     })

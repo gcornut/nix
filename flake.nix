@@ -36,14 +36,14 @@
         useGlobalPkgs = true;
         useUserPackages = false;
         users."${globals.user}" = import ./home;
-        extraSpecialArgs = import ./modules/utils.nix {inherit self lib globals;};
+        extraSpecialArgs = import ./home/utils.nix {inherit self lib globals;};
       };
       system.primaryUser = globals.user;
     };
   in {
     darwinConfigurations."${globals.hostname}" = nix-darwin.lib.darwinSystem {
       modules = [
-        ./modules/system.nix
+        ./system.nix
         configuration
         home-manager.darwinModules.home-manager
       ];

@@ -1,6 +1,6 @@
 {
   pkgs,
-  mkCaskList,
+  mkBrewfile,
   ...
 }: {
   # Packages
@@ -26,32 +26,30 @@
   ];
 
   # Desktop apps
-  home.file.".Brewfile" = {
-    text = mkCaskList [
-      # media
-      "spotify"
-      "vlc"
-      "losslesscut"
+  home.file = mkBrewfile ''
+    # media
+    cask "spotify"
+    cask "vlc"
+    cask "losslesscut"
 
-      # browser
-      "arc"
-      "google-chrome"
-      "firefox"
-      "tor-browser"
+    # browser
+    cask "arc"
+    cask "google-chrome"
+    cask "firefox"
+    cask "tor-browser"
 
-      # sync & network
-      "tailscale"
-      "parsec"
-      "syncthing"
+    # sync & network
+    cask "tailscale"
+    cask "parsec"
+    cask "syncthing"
 
-      # messaging
-      "slack"
-      "signal"
-      "discord"
+    # messaging
+    cask "slack"
+    cask "signal"
+    cask "discord"
 
-      # dev
-      "docker"
-      "bitwarden"
-    ];
-  };
+    # dev
+    cask "docker"
+    cask "bitwarden"
+  '';
 }
