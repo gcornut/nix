@@ -12,53 +12,65 @@ private enum ANSI {
     static let GREEN = "\u{001B}[32m"
     static let YELLOW = "\u{001B}[33m"
     static let BLUE = "\u{001B}[34m"
+    static func red(_ text: Any) -> String {
+        return "\(RED)\(text)\(RESET)"
+    }
+    static func green(_ text: Any) -> String {
+        return "\(GREEN)\(text)\(RESET)"
+    }
+    static func yellow(_ text: Any) -> String {
+        return "\(YELLOW)\(text)\(RESET)"
+    }
+    static func blue(_ text: Any) -> String {
+        return "\(BLUE)\(text)\(RESET)"
+    }
 }
 
-class KeyboardMonitor {
+class USBMonitor {
     private var hidManager: IOHIDManager?
     private let targetProductId: Int?
     private let targetManufacturer: String?
     private let onConnectCommand: String?
     private let onDisconnectCommand: String?
-    
+
     init(targetProductId: Int? = nil, targetManufacturer: String? = nil, onConnectCommand: String? = nil, onDisconnectCommand: String? = nil) {
         self.targetProductId = targetProductId
         self.targetManufacturer = targetManufacturer
         self.onConnectCommand = onConnectCommand
         self.onDisconnectCommand = onDisconnectCommand
-        
+
         // Create HID Manager
         hidManager = IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
-        
+
         guard let manager = hidManager else {
             print("Failed to create HID Manager")
             return
         }
-        
+
         // Set up matching dictionary for keyboards
         let keyboardMatching = [
             kIOHIDDeviceUsagePageKey: kHIDPage_GenericDesktop,
             kIOHIDDeviceUsageKey: kHIDUsage_GD_Keyboard
         ] as CFDictionary
-        
+
         // Set the matching dictionary
         IOHIDManagerSetDeviceMatching(manager, keyboardMatching)
-        
+
         // Set up callbacks
         let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         IOHIDManagerRegisterDeviceMatchingCallback(manager, { context, result, sender, device in
-            let monitor = Unmanaged<KeyboardMonitor>.fromOpaque(context!).takeUnretainedValue()
+            let monitor = Unmanaged<USBMonitor>.fromOpaque(context!).takeUnretainedValue()
             monitor.deviceAdded(device)
         }, context)
-        
+
         IOHIDManagerRegisterDeviceRemovalCallback(manager, { context, result, sender, device in
-            let monitor = Unmanaged<KeyboardMonitor>.fromOpaque(context!).takeUnretainedValue()
+            let monitor = Unmanaged<USBMonitor>.fromOpaque(context!).takeUnretainedValue()
             monitor.deviceRemoved(device)
         }, context)
-        
+
         // Schedule with run loop
         IOHIDManagerScheduleWithRunLoop(manager, CFRunLoopGetCurrent(), CFRunLoopMode.defaultMode.rawValue)
-        
+
         // Open the HID Manager
         let openResult = IOHIDManagerOpen(manager, IOOptionBits(kIOHIDOptionsTypeNone))
         if openResult != kIOReturnSuccess {
@@ -68,7 +80,7 @@ class KeyboardMonitor {
             }
         }
     }
-    
+
     private func shouldFilterDevice(_ device: IOHIDDevice) -> Bool {
         // Check product ID filter
         if let targetId = targetProductId,
@@ -76,124 +88,117 @@ class KeyboardMonitor {
            productId != targetId {
             return true
         }
-        
+
         // Check manufacturer filter
         if let targetManu = targetManufacturer,
            let manufacturer = IOHIDDeviceGetProperty(device, kIOHIDManufacturerKey as CFString) as? String,
            manufacturer.lowercased() != targetManu.lowercased() {
             return true
         }
-        
+
         return false
     }
-    
+
     private func executeCommand(_ command: String) {
         let task = Process()
         let pipe = Pipe()
-        
+
         task.executableURL = URL(fileURLWithPath: "/bin/bash")
         task.arguments = ["-c", command]
         task.standardOutput = pipe
         task.standardError = pipe
-        
-        print("\(ANSI.BLUE)┌─ Command Output\(ANSI.RESET)")
-        print("\(ANSI.BLUE)│\(ANSI.RESET) Executing: \(ANSI.GREEN)`\(command)`\(ANSI.RESET)")
-        print("\(ANSI.BLUE)├─\(ANSI.RESET)")
-        
+
+        print(ANSI.blue("┌─ Command Output"))
+        print("\(ANSI.blue("│")) Executing: \(ANSI.green("`\(command)`"))")
+        print(ANSI.blue("├─"))
+
         do {
             try task.run()
             task.waitUntilExit()
-            
+
             let data = pipe.fileHandleForReading.readDataToEndOfFile()
             if let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
                 if !output.isEmpty {
                     // Split output into lines and format each line
                     let lines = output.components(separatedBy: .newlines)
                     for line in lines {
-                        print("\(ANSI.BLUE)│\(ANSI.RESET) \(line)")
+                        print("\(ANSI.blue("│")) \(line)")
                     }
                 }
             }
-            
+
             if task.terminationStatus != 0 {
-                print("\(ANSI.BLUE)├─\(ANSI.RESET)")
-                print("\(ANSI.BLUE)│\(ANSI.RESET) \(ANSI.YELLOW)Command exited with status \(task.terminationStatus)\(ANSI.RESET)")
+                print(ANSI.blue("├─"))
+                print("\(ANSI.blue("│")) \(ANSI.yellow("Command exited with status \(task.terminationStatus)"))")
             }
-            print("\(ANSI.BLUE)└─\(ANSI.RESET)")
+            print(ANSI.blue("└─"))
         } catch {
-            print("\(ANSI.BLUE)├─\(ANSI.RESET)")
-            print("\(ANSI.BLUE)│\(ANSI.RESET) \(ANSI.YELLOW)Failed to execute command: \(error.localizedDescription)\(ANSI.RESET)")
-            print("\(ANSI.BLUE)└─\(ANSI.RESET)")
+            print(ANSI.blue("├─"))
+            print("\(ANSI.blue("│")) \(ANSI.yellow("Failed to execute command: \(error.localizedDescription)"))")
+            print(ANSI.blue("└─"))
         }
     }
-    
+
     private func deviceAdded(_ device: IOHIDDevice) {
         let deviceInfo = getDeviceInfo(device)
-        
+
         // Check if we should filter this device
         if shouldFilterDevice(device) {
             return
         }
-        
-        print("\(ANSI.BLUE)┌─ Device Connected\(ANSI.RESET)")
+
+        print(ANSI.blue("┌─ Device Connected"))
         // Split device info into lines and format each line
         let lines = deviceInfo.components(separatedBy: .newlines)
         for line in lines {
-            print("\(ANSI.BLUE)│\(ANSI.RESET) \(ANSI.GREEN)\(line)\(ANSI.RESET)")
+            print("\(ANSI.blue("│")) \(ANSI.green(line))")
         }
-        print("\(ANSI.BLUE)└─\(ANSI.RESET)")
-        
+        print(ANSI.blue("└─"))
+
         // Execute the on-connect command if specified
         if let command = onConnectCommand {
             executeCommand(command)
         }
     }
-    
+
     private func deviceRemoved(_ device: IOHIDDevice) {
         let deviceInfo = getDeviceInfo(device)
-        
+
         // Check if we should filter this device
         if shouldFilterDevice(device) {
             return
         }
-        
-        print("\(ANSI.BLUE)┌─ Device Disconnected\(ANSI.RESET)")
+
+        print(ANSI.blue("┌─ Device Disconnected"))
         // Split device info into lines and format each line
         let lines = deviceInfo.components(separatedBy: .newlines)
         for line in lines {
-            print("\(ANSI.BLUE)│\(ANSI.RESET) \(ANSI.RED)\(line)\(ANSI.RESET)")
+            print("\(ANSI.blue("│")) \(ANSI.red(line))")
         }
-        print("\(ANSI.BLUE)└─\(ANSI.RESET)")
-        
+        print(ANSI.blue("└─"))
+
         // Execute the on-disconnect command if specified
         if let command = onDisconnectCommand {
             executeCommand(command)
         }
     }
-    
+
     private func getDeviceInfo(_ device: IOHIDDevice) -> String {
         var info = [String]()
-        
+
         if let name = IOHIDDeviceGetProperty(device, kIOHIDProductKey as CFString) as? String {
             info.append("Name: \(name)")
         }
-        
+        if let manufacturer = IOHIDDeviceGetProperty(device, kIOHIDManufacturerKey as CFString) as? String {
+            info.append("Manufacturer: \(manufacturer)")
+        }
         if let vendorID = IOHIDDeviceGetProperty(device, kIOHIDVendorIDKey as CFString) as? Int {
-            info.append("Vendor ID: 0x\(String(format: "%04x", vendorID))")
+            info.append("Vendor ID: \(vendorID)")
         }
-        
         if let productID = IOHIDDeviceGetProperty(device, kIOHIDProductIDKey as CFString) as? Int {
-            info.append("Product ID: 0x\(String(format: "%04x", productID))")
+            info.append("Product ID: \(productID)")
         }
-        
-        if let usagePage = IOHIDDeviceGetProperty(device, kIOHIDPrimaryUsagePageKey as CFString) as? Int {
-            info.append("Usage Page: 0x\(String(format: "%04x", usagePage))")
-        }
-        
-        if let usage = IOHIDDeviceGetProperty(device, kIOHIDPrimaryUsageKey as CFString) as? Int {
-            info.append("Usage: 0x\(String(format: "%04x", usage))")
-        }
-        
+
         return info.joined(separator: "\n")
     }
 }
@@ -245,30 +250,30 @@ while !args.isEmpty {
 }
 
 // Create a global monitor instance with the filters and commands
-let globalMonitor = KeyboardMonitor(
+let globalMonitor = USBMonitor(
     targetProductId: targetProductId,
     targetManufacturer: targetManufacturer,
     onConnectCommand: onConnectCommand,
     onDisconnectCommand: onDisconnectCommand
 )
 
-print("Starting keyboard monitor...")
+print("Starting USB monitor...")
 if let pid = targetProductId {
-    print("Filtering for product ID: \(ANSI.GREEN)0x\(String(format: "%04x", pid))`\(ANSI.RESET)")
+    print("Filtering for product ID: \(ANSI.green(pid))")
 }
 if let manu = targetManufacturer {
-    print("Filtering for manufacturer: \(ANSI.GREEN)`\(manu)`\(ANSI.RESET)")
+    print("Filtering for manufacturer: \(ANSI.green(manu))")
 }
 if let cmd = onConnectCommand {
-    print("Will execute on connect: \(ANSI.GREEN)`\(cmd)`\(ANSI.RESET)")
+    print("Will execute on disconnect: \(ANSI.green(cmd))")
 }
 if let cmd = onDisconnectCommand {
-    print("Will execute on disconnect: \(ANSI.GREEN)`\(cmd)`\(ANSI.RESET)")
+    print("Will execute on disconnect: \(ANSI.green(cmd))")
 }
 if targetProductId == nil && targetManufacturer == nil {
-    print("No filters applied - showing all keyboard events")
+    print("No filters applied - showing all USB events")
 }
 print("Press Ctrl+C to stop\n")
 
 // Keep the program running
-RunLoop.main.run() 
+RunLoop.main.run()

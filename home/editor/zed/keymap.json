@@ -9,10 +9,10 @@
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "cmd-ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "cmd-ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "cmd-ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "cmd-ctrl-h": "workspace::ActivatePaneLeft",
+      "cmd-ctrl-l": "workspace::ActivatePaneRight",
+      "cmd-ctrl-k": "workspace::ActivatePaneUp",
+      "cmd-ctrl-j": "workspace::ActivatePaneDown",
       "shift shift": "file_finder::Toggle"
     }
   },

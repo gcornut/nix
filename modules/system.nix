@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   #  macOS's System configuration
   #    https://nix-darwin.github.io/nix-darwin/manual/index.html
 
@@ -38,11 +38,6 @@
         StandardHideDesktopIcons = true;
         HideDesktop = true;
       };
-    };
-
-    keyboard = {
-      enableKeyMapping = true;
-      remapCapsLockToEscape = true;
     };
   };
 

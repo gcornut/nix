@@ -1,13 +1,28 @@
-{...}: {
-  launchd.user.agents.keyboard-monitor = {
-    script = ''${./usb-monitor.swift} --productId 50501 --on-connect "echo 'Keyboard connected'" --on-disconnect "echo 'Keyboard disconnected'"'';
+{pkgs, ...}: let
+  utils = import ./utils {inherit pkgs;};
+in {
+  services.macos-remap-keys = {
+    enable = true;
+    keyboard = {
+      Capslock = "Escape";
+    };
+  };
 
-        serviceConfig = {
-        KeepAlive = true;
-        RunAtLoad = true;
-        ProcessType = "Background";
-        StandardOutPath = "/var/tmp/keyboard-monitor.log";
-        StandardErrorPath = "/var/tmp/keyboard-monitor.log";
-      };
+  launchd.agents.keyboard-monitor = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${utils}/usb-monitor"
+        "--productId"
+        "50501"
+        "--on-connect"
+        "${utils}/switch-layout set French-PC"
+        "--on-disconnect"
+        "${utils}/switch-layout set French"
+      ];
+      KeepAlive = true;
+      RunAtLoad = true;
+      ProcessType = "Background";
+    };
   };
 }
