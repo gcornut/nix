@@ -225,7 +225,5 @@ function focus() {
 }
 
 :nix-develop() {
-    cd .nix
-    nix develop -c zsh
-    cd ..
+    cd .nix; nix develop -c zsh
 }
