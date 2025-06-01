@@ -1,6 +1,7 @@
 {
   pkgs,
   env,
+  lib,
   ...
 }: {
   home.packages = with pkgs; [
@@ -28,6 +29,7 @@
     lfs.enable = true;
     delta.enable = true;
     maintenance.enable = true;
+    maintenance.repositories = lib.strings.splitString "," env.MYREPOS;
 
     ignores = [
       ".DS_Store"

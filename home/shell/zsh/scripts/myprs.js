@@ -2,6 +2,7 @@
 
 import { $ } from "bun";
 
+import os from "node:os";
 import chalk from "chalk";
 import dropRight from "lodash/dropRight";
 import last from "lodash/last";
@@ -17,12 +18,15 @@ function shortTeam(team) {
 }
 
 const me = "gcornut";
-const repos = process.env.MYREPOS.split(",");
+const repos = process.env.MYREPOS.split(",").map((r) =>
+  r.replace(/^~\//, `${os.homedir()}/`),
+);
 const fields =
   "number,url,isDraft,title,reviewRequests,reviewDecision,labels,assignees";
 async function listPR(repo, fk, fv) {
-  const res =
-    $`gh pr list -R ${repo} ${fk} ${fv} --json ${fields} --search "draft:false"`.quiet();
+  const res = $`gh pr list ${fk} ${fv} --json ${fields} --search "draft:false"`
+    .cwd(repo)
+    .quiet();
   return await res.json();
 }
 
