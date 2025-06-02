@@ -9,40 +9,77 @@ default-root-container-layout = 'accordion'
 
 [mode.main.binding]
 
-alt-tab = 'focus right --boundaries-action wrap-around-the-workspace --ignore-floating'
-alt-h = 'focus left'
-alt-l = 'focus right'
-# cmd-j = 'focus down'
-# cmd-k = 'focus up'
+# alt-cmd-ctrl is a key remapped via the HyperKey app (see home/keyboard config)
 
-alt-r = ['reload-config', 'layout h_accordion']
+alt-cmd-ctrl-tab = 'focus right --boundaries-action wrap-around-the-workspace --ignore-floating'
 
-alt-shift-h = 'move left'
-alt-shift-l = 'move right'
-# cmd-shift-j = 'move down'
-# cmd-shift-k = 'move up'
+alt-cmd-ctrl-h = 'focus left'
+alt-cmd-ctrl-left = 'focus left'
+alt-cmd-ctrl-l = 'focus right'
+alt-cmd-ctrl-right = 'focus right'
 
-cmd-1 = ['workspace 1', 'layout h_accordion']
-cmd-2 = ['workspace 2', 'layout h_accordion']
-cmd-3 = ['workspace 3', 'layout h_accordion']
-cmd-4 = ['workspace 4', 'layout h_accordion']
-cmd-5 = ['workspace 5', 'layout h_accordion']
-cmd-6 = ['workspace 6', 'layout h_accordion']
-cmd-7 = ['workspace 7', 'layout h_accordion']
-cmd-8 = ['workspace 8', 'layout h_accordion']
-cmd-9 = ['workspace 9', 'layout h_accordion']
-cmd-0 = ['workspace 10', 'layout h_accordion']
+alt-cmd-ctrl-r = ['reload-config', 'layout h_accordion']
 
-cmd-shift-1 = ['move-node-to-workspace 1', 'workspace 1', 'layout h_accordion']
-cmd-shift-2 = ['move-node-to-workspace 2', 'workspace 2', 'layout h_accordion']
-cmd-shift-3 = ['move-node-to-workspace 3', 'workspace 3', 'layout h_accordion']
-cmd-shift-4 = ['move-node-to-workspace 4', 'workspace 4', 'layout h_accordion']
-cmd-shift-5 = ['move-node-to-workspace 5', 'workspace 5', 'layout h_accordion']
-cmd-shift-6 = ['move-node-to-workspace 6', 'workspace 6', 'layout h_accordion']
-cmd-shift-7 = ['move-node-to-workspace 7', 'workspace 7', 'layout h_accordion']
-cmd-shift-8 = ['move-node-to-workspace 8', 'workspace 8', 'layout h_accordion']
-cmd-shift-9 = ['move-node-to-workspace 9', 'workspace 9', 'layout h_accordion']
-cmd-shift-0 = [
+alt-cmd-ctrl-shift-left = 'focus left'
+alt-cmd-ctrl-shift-right = 'focus right'
+
+alt-cmd-ctrl-1 = ['workspace 1', 'layout h_accordion']
+alt-cmd-ctrl-2 = ['workspace 2', 'layout h_accordion']
+alt-cmd-ctrl-3 = ['workspace 3', 'layout h_accordion']
+alt-cmd-ctrl-4 = ['workspace 4', 'layout h_accordion']
+alt-cmd-ctrl-5 = ['workspace 5', 'layout h_accordion']
+alt-cmd-ctrl-6 = ['workspace 6', 'layout h_accordion']
+alt-cmd-ctrl-7 = ['workspace 7', 'layout h_accordion']
+alt-cmd-ctrl-8 = ['workspace 8', 'layout h_accordion']
+alt-cmd-ctrl-9 = ['workspace 9', 'layout h_accordion']
+alt-cmd-ctrl-0 = ['workspace 10', 'layout h_accordion']
+
+alt-cmd-ctrl-shift-1 = [
+    'move-node-to-workspace 1',
+    'workspace 1',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-2 = [
+    'move-node-to-workspace 2',
+    'workspace 2',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-3 = [
+    'move-node-to-workspace 3',
+    'workspace 3',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-4 = [
+    'move-node-to-workspace 4',
+    'workspace 4',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-5 = [
+    'move-node-to-workspace 5',
+    'workspace 5',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-6 = [
+    'move-node-to-workspace 6',
+    'workspace 6',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-7 = [
+    'move-node-to-workspace 7',
+    'workspace 7',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-8 = [
+    'move-node-to-workspace 8',
+    'workspace 8',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-9 = [
+    'move-node-to-workspace 9',
+    'workspace 9',
+    'layout h_accordion',
+]
+alt-cmd-ctrl-shift-0 = [
     'move-node-to-workspace 10',
     'workspace 10',
     'layout h_accordion',
@@ -77,6 +114,9 @@ run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Slack'
+run = 'move-node-to-workspace 4'
+[[on-window-detected]]
+if.app-name-regex-substring = 'Signal'
 run = 'move-node-to-workspace 4'
 
 [[on-window-detected]]

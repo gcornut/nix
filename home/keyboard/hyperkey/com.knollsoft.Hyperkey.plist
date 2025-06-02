@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Hyper key does not include shift -->
+    <key>hyperFlags</key>
+	<integer>1835008</integer>
+
+	<!-- Hyper key mapped to capslock -->
+	<key>keyRemap</key>
+	<integer>1</integer>
+	<key>physicalKeycode</key>
+	<integer>57</integer>
+
+	<!-- Quickly pressing capslock triggers escape -->
+	<key>executeQuickHyperKey</key>
+	<integer>1</integer>
+	<key>quickHyperKeycode</key>
+	<integer>53</integer>
+</dict>
+</plist>

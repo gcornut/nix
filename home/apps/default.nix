@@ -1,6 +1,7 @@
 {
   pkgs,
   mkBrewfile,
+  mkLaunchApp,
   ...
 }: {
   # Packages
@@ -9,6 +10,7 @@
     nixd
     alejandra
     google-cloud-sdk
+    tldr
 
     # JS
     pnpm
@@ -52,4 +54,6 @@
     cask "docker"
     cask "bitwarden"
   '';
+
+  launchd.agents = mkLaunchApp "syncthing" "/Applications/Syncthing.app";
 }

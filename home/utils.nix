@@ -48,4 +48,18 @@ with builtins; rec {
   ]);
 
   mkBrewfile = text: {".Brewfile".text = text;};
+
+  mkLaunchApp = id: path: {
+    "${id}" = {
+      enable = true;
+      config = {
+        ProgramArguments = [
+          "/usr/bin/open"
+          path
+        ];
+        RunAtLoad = true;
+        ProcessType = "Interactive";
+      };
+    };
+  };
 }
