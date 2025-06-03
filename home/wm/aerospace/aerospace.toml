@@ -19,6 +19,7 @@ alt-cmd-ctrl-l = 'focus right'
 alt-cmd-ctrl-right = 'focus right'
 
 alt-cmd-ctrl-r = ['reload-config', 'layout h_accordion']
+alt-cmd-ctrl-t = ['layout h_tiles']
 
 alt-cmd-ctrl-shift-left = 'focus left'
 alt-cmd-ctrl-shift-right = 'focus right'
@@ -100,6 +101,9 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Arc'
+run = 'move-node-to-workspace 2'
+[[on-window-detected]]
+if.app-name-regex-substring = 'Zen'
 run = 'move-node-to-workspace 2'
 
 [[on-window-detected]]

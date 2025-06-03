@@ -33,12 +33,14 @@
     cask "spotify"
     cask "vlc"
     cask "losslesscut"
+    cask "gimp"
 
     # browser
     cask "arc"
     cask "google-chrome"
     cask "firefox"
     cask "tor-browser"
+    cask "zen"
 
     # sync & network
     cask "tailscale"
