@@ -13,3 +13,5 @@ source $NIX_POWERLEVEL10K/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
 
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
+
+[[ ! -f ~/.zsh/env.sh ]] || source ~/.zsh/env.sh

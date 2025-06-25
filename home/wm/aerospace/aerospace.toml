@@ -21,8 +21,8 @@ alt-cmd-ctrl-right = 'focus right'
 alt-cmd-ctrl-r = ['reload-config', 'layout h_accordion']
 alt-cmd-ctrl-t = ['layout h_tiles']
 
-alt-cmd-ctrl-shift-left = 'focus left'
-alt-cmd-ctrl-shift-right = 'focus right'
+alt-cmd-ctrl-shift-left = 'move left'
+alt-cmd-ctrl-shift-right = 'move right'
 
 alt-cmd-ctrl-1 = ['workspace 1', 'layout h_accordion']
 alt-cmd-ctrl-2 = ['workspace 2', 'layout h_accordion']
