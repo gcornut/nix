@@ -13,7 +13,7 @@
         AppleShowAllExtensions = true;
         NSTableViewDefaultSizeMode = 2;
         NSDocumentSaveNewDocumentsToCloud = false;
-        ApplePressAndHoldEnabled = false;
+        ApplePressAndHoldEnabled = true;
       };
       LaunchServices.LSQuarantine = false;
       finder = {

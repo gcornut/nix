@@ -2,6 +2,7 @@
   lib,
   mkDotdirLinks,
   mkBrewfile,
+  mkLaunchApp,
   config,
   ...
 }: {
@@ -16,5 +17,8 @@
       from = ./aerospace;
       to = ".config/aerospace";
     })
+  ];
+  launchd.agents = lib.mkMerge [
+    (mkLaunchApp "hyperkey" "/Applications/AeroSpace.app")
   ];
 }
